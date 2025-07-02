@@ -38,7 +38,7 @@ class FetchWeatherFromApiUseCaseImpTest {
             location = LocationModel(
                 name = "Bangkok",
                 country = "Thailand",
-                localTime = "2025-07-02 00:51"
+                localTime = "2025-07-02 20:00"
             ),
             currentWeatherCondition = CurrentWeatherConditionModel(
                 temperature = 25.0,
