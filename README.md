@@ -17,3 +17,8 @@
 - coil image
 - ktor for network calls
 - spotless and klint for code formatting
+
+# demo video
+
+https://github.com/user-attachments/assets/9370a95d-4e45-44a9-929d-3dbb119ffd57
+
