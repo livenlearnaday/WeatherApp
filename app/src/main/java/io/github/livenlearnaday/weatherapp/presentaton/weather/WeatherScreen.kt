@@ -6,12 +6,14 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,11 +33,14 @@ import androidx.compose.ui.graphics.Color.Companion.Transparent
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import io.github.livenlearnaday.weatherapp.R
+import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherConditionModel
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherModel
+import io.github.livenlearnaday.weatherapp.domain.model.LocationModel
+import io.github.livenlearnaday.weatherapp.domain.model.RequestModel
 import io.github.livenlearnaday.weatherapp.presentaton.util.getFormattedUVRange
 import io.github.livenlearnaday.weatherapp.presentaton.util.getHumidityInPercent
 import io.github.livenlearnaday.weatherapp.presentaton.util.getUVIndexColor
@@ -194,81 +199,52 @@ fun BottomUI(
     currentWeather: CurrentWeatherModel
 ) {
     Column(
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(20.dp),
+        horizontalAlignment = Alignment.Start,
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp, vertical = 20.dp)
+            .padding(start = 20.dp, end = 20.dp, bottom = 20.dp)
             .background(Color.White)
-            .clip(RoundedCornerShape(8.dp))
-
+            .clip(RoundedCornerShape(16.dp))
     ) {
-        ConstraintLayout {
-            val (
-                detail,
-                humidity,
-                pressure,
-                uv,
-                wind
-            ) = createRefs()
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(top = 20.dp),
+            text = stringResource(id = R.string.label_detail),
+            color = Color.DarkGray,
+            fontWeight = FontWeight.Bold,
+            style = MaterialTheme.typography.titleLarge
+        )
 
-            Text(
-                modifier = Modifier
-                    .constrainAs(detail) {
-                        top.linkTo(parent.top, margin = 10.dp)
-                        bottom.linkTo(humidity.top, margin = 10.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                    },
-                text = stringResource(id = R.string.label_detail),
-                color = Color.DarkGray,
-                fontWeight = FontWeight.Bold,
-                style = MaterialTheme.typography.titleLarge
-            )
-
+        Row(
+            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             WeatherItemColumn(
-                modifier = Modifier
-                    .constrainAs(humidity) {
-                        top.linkTo(detail.bottom, margin = 20.dp)
-                        bottom.linkTo(uv.top, margin = 20.dp)
-                        start.linkTo(parent.start)
-                        end.linkTo(pressure.start)
-                    },
                 title = stringResource(R.string.label_humidity),
                 value = getHumidityInPercent(currentWeather.currentWeatherCondition.humidity)
             )
 
             WeatherItemColumn(
-                modifier = Modifier
-                    .constrainAs(pressure) {
-                        top.linkTo(humidity.top)
-                        bottom.linkTo(humidity.bottom)
-                        start.linkTo(humidity.end, margin = 20.dp)
-                        end.linkTo(parent.end)
-                    },
                 title = stringResource(R.string.label_pressure),
-                value = currentWeather.currentWeatherCondition.pressure.toString()
+                value = "${currentWeather.currentWeatherCondition.pressure} MB"
             )
+        }
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 20.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
             WeatherItemColumn(
-                modifier = Modifier
-                    .constrainAs(uv) {
-                        top.linkTo(humidity.bottom, margin = 20.dp)
-                        start.linkTo(humidity.start)
-                        bottom.linkTo(parent.bottom, margin = 20.dp)
-                    },
                 title = stringResource(R.string.label_uv_index),
                 value = getFormattedUVRange(currentWeather.currentWeatherCondition.uvIndex.toDouble())
             )
 
             WeatherItemColumn(
-                modifier = Modifier
-                    .constrainAs(wind) {
-                        top.linkTo(uv.top)
-                        bottom.linkTo(uv.bottom)
-                        start.linkTo(pressure.start)
-                        end.linkTo(parent.end)
-                    },
                 title = stringResource(R.string.label_wind_speed),
                 value = "${currentWeather.currentWeatherCondition.windSpeed} km/h ${currentWeather.currentWeatherCondition.windDir}"
             )
@@ -284,37 +260,77 @@ fun WeatherItemColumn(
 ) {
     Surface(
         modifier = modifier
-            .background(color = MaterialTheme.colorScheme.surface)
-            .padding(20.dp),
+            .size(150.dp)
+            .background(color = MaterialTheme.colorScheme.surface),
         shape = RoundedCornerShape(14.dp),
         contentColor = MaterialTheme.colorScheme.onSurface
 
     ) {
         Column(
+            modifier = Modifier
+                .wrapContentWidth()
+                .wrapContentHeight()
+                .padding(5.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                modifier = Modifier.padding(bottom = 5.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentWidth()
+                    .padding(top = 10.dp),
                 text = title,
-                fontWeight = FontWeight.Medium
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.SemiBold
             )
 
             Text(
-                text = value
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(top = 20.dp, bottom = 10.dp),
+                text = value,
+                textAlign = TextAlign.Center
             )
         }
     }
 }
 
 @Composable
-@Preview(showBackground = true)
-fun PreviewHomeScreen() {
+@Preview(
+    showBackground = true
+    //  heightDp = 360, widthDp = 800 //for quick landscape mode check
+)
+fun PreviewWeatherScreen() {
     WeatherAppTheme {
         WeatherScreen(
-            weatherState = WeatherState(),
+            weatherState = WeatherState(
+                currentWeatherModel = currentWeather
+            ),
             onWeatherAction = {},
             onBackPressed = {}
         )
     }
 }
+
+private val currentWeather = CurrentWeatherModel(
+    request = RequestModel(
+        type = "City",
+        query = "Bangkok, Thailand",
+        language = "en",
+        unit = "m"
+    ),
+    location = LocationModel(
+        name = "Bangkok",
+        country = "Thailand",
+        localTime = "2025-07-02 20:00"
+    ),
+    currentWeatherCondition = CurrentWeatherConditionModel(
+        temperature = 25.0,
+        windSpeed = 9,
+        windDegree = 249,
+        windDir = "WSW",
+        pressure = 1008,
+        humidity = 100,
+        uvIndex = 0
+    )
+)
