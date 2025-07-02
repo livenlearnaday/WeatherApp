@@ -20,5 +20,5 @@
 
 # demo video
 
-https://github.com/user-attachments/assets/9370a95d-4e45-44a9-929d-3dbb119ffd57
+https://github.com/user-attachments/assets/8718f48d-e88d-4757-8174-c7863eb97454
 
