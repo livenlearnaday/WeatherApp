@@ -4,5 +4,5 @@ sealed interface HomeAction {
 
     data object OnClickedSearch : HomeAction
     data object ResetMessage : HomeAction
-    data object ResetNavigateToWeather : HomeAction
+    data object ResetWeatherNavigation : HomeAction
 }

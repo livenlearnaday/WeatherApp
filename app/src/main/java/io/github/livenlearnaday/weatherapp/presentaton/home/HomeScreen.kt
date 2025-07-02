@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.calculateStartPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -26,28 +25,21 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import io.github.livenlearnaday.weatherapp.R
-import io.github.livenlearnaday.weatherapp.ui.components.ActionButton
+import io.github.livenlearnaday.weatherapp.ui.components.CustomButton
 import io.github.livenlearnaday.weatherapp.ui.components.CustomTextField
 import io.github.livenlearnaday.weatherapp.ui.components.CustomTopAppBar
 import io.github.livenlearnaday.weatherapp.ui.components.DotPulsingLoadingIndicator
 import io.github.livenlearnaday.weatherapp.ui.components.positionAwareImePadding
 import io.github.livenlearnaday.weatherapp.ui.theme.WeatherAppTheme
-import kotlin.text.ifEmpty
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeState: HomeState,
-    onHomeAction: (HomeAction) -> Unit,
-    onNavigateToWeather: () -> Unit
+    onHomeAction: (HomeAction) -> Unit
 ) {
     val context = LocalContext.current
     val keyboard = LocalSoftwareKeyboardController.current
-
-    if (homeState.shouldNavigateToWeather) {
-        onHomeAction(HomeAction.ResetNavigateToWeather)
-        onNavigateToWeather()
-    }
 
     if (homeState.isError || homeState.toastMessage.isNotEmpty()) {
         val text = when {
@@ -100,12 +92,12 @@ fun HomeScreen(
 
                     Spacer(modifier = Modifier.height(20.dp))
 
-                    ActionButton(
-                        modifier = Modifier
-                            .requiredHeightIn(min = 40.dp),
-                        enableButton = !homeState.shouldNavigateToWeather,
+                    CustomButton(
+                        modifier = Modifier.padding(horizontal = 50.dp),
+                        enableButton = !homeState.isLoading,
+                        showLoading = homeState.isLoading,
                         label = stringResource(R.string.label_search),
-                        onClick = {
+                        onButtonClicked = {
                             keyboard?.hide()
                             onHomeAction(HomeAction.OnClickedSearch)
                         }
@@ -121,7 +113,6 @@ fun HomeScreen(
 fun PreviewHomeScreen() {
     WeatherAppTheme {
         HomeScreen(
-            onNavigateToWeather = {},
             homeState = HomeState(),
             onHomeAction = {}
         )

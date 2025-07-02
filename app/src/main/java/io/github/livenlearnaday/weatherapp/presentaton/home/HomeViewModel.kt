@@ -4,7 +4,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import io.github.livenlearnaday.weatherapp.presentaton.util.validateInput
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class HomeViewModel : ViewModel() {
@@ -16,6 +20,9 @@ class HomeViewModel : ViewModel() {
 
     var homeState by mutableStateOf(HomeState())
         private set
+
+    private val _homeEvent = Channel<HomeEvent>()
+    val homeEvent = _homeEvent.receiveAsFlow()
 
     init {
         Timber.tag(TAG)
@@ -43,9 +50,9 @@ class HomeViewModel : ViewModel() {
                 }
             }
 
-            HomeAction.ResetNavigateToWeather -> {
+            HomeAction.ResetWeatherNavigation -> {
                 homeState = homeState.copy(
-                    shouldNavigateToWeather = false
+                    isLoading = false
                 )
             }
         }
@@ -64,10 +71,9 @@ class HomeViewModel : ViewModel() {
             else -> {
                 when {
                     input.validateInput().isEmpty() -> {
-                        homeState = homeState.copy(
-                            shouldNavigateToWeather = true,
-                            isLoading = false
-                        )
+                        viewModelScope.launch {
+                            _homeEvent.send(HomeEvent.OnNavigateToWeather)
+                        }
                     }
 
                     else -> {
@@ -83,7 +89,6 @@ class HomeViewModel : ViewModel() {
 
     private fun resetHomeState() {
         homeState = homeState.copy(
-            shouldNavigateToWeather = false,
             isLoading = false,
             toastMessage = "",
             isError = false,

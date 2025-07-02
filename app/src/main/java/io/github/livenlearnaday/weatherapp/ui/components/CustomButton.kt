@@ -1,54 +1,74 @@
 package io.github.livenlearnaday.weatherapp.ui.components
 
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeightIn
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import io.github.livenlearnaday.weatherapp.R
+import androidx.compose.ui.unit.sp
 import io.github.livenlearnaday.weatherapp.ui.theme.WeatherAppTheme
 
 @Composable
-fun ActionButton(
+fun CustomButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    label: String = "",
+    imageResource: Int? = null,
+    label: String,
+    textColor: Color = Color.White,
+    fontSize: TextUnit = 14.sp,
+    showLoading: Boolean = false,
+    colors: ButtonColors = ButtonDefaults.buttonColors(),
+    shape: Shape = RoundedCornerShape(10.dp),
     enableButton: Boolean = true,
-    buttonHeight: Dp = 50.dp
+    onButtonClicked: () -> Unit
 ) {
     Button(
+        enabled = enableButton,
         modifier = modifier
             .fillMaxWidth()
-            .padding(horizontal = 50.dp)
-            .requiredHeightIn(buttonHeight)
-            .clickable(
-                enabled = enableButton,
-                interactionSource = null,
-                indication = null,
-                onClick = {
-                    onClick()
-                }
-            ),
-        enabled = enableButton,
-        shape = RoundedCornerShape(8.dp),
+            .height(50.dp),
         onClick = {
-            onClick()
+            onButtonClicked()
         },
+        shape = shape,
+        colors = colors,
         content = {
-            Text(
-                text = label,
-                style = MaterialTheme.typography.labelLarge
-            )
+            if (showLoading) {
+                DotsPulsing()
+            } else {
+                if (imageResource != null) {
+                    Image(
+                        painter = painterResource(id = imageResource),
+                        contentDescription = ""
+                    )
+                }
+
+                Text(
+                    modifier = Modifier
+                        .padding(6.dp),
+                    text = label,
+                    style = LocalTextStyle.current.copy(
+                        color = textColor,
+                        fontSize = fontSize,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                )
+            }
         }
     )
 }
@@ -58,9 +78,12 @@ fun ActionButton(
 fun PreviewActionButton() {
     WeatherAppTheme {
         Column {
-            ActionButton(
-                label = stringResource(R.string.ok),
-                onClick = {}
+            CustomButton(
+                modifier = Modifier
+                    .wrapContentWidth(),
+                label = "Search",
+                showLoading = false,
+                onButtonClicked = {}
             )
         }
     }
@@ -71,10 +94,12 @@ fun PreviewActionButton() {
 fun PreviewActionButtonIsLoading() {
     WeatherAppTheme {
         Column {
-            ActionButton(
-                label = stringResource(R.string.ok),
-                onClick = {},
-                enableButton = false
+            CustomButton(
+                modifier = Modifier
+                    .wrapContentWidth(),
+                label = "Search",
+                showLoading = true,
+                onButtonClicked = {}
             )
         }
     }
