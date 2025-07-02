@@ -21,8 +21,7 @@ class HomeScreenTest {
         rule.setContent {
             HomeScreen(
                 homeState = HomeState(),
-                onHomeAction = {},
-                onNavigateToWeather = {}
+                onHomeAction = {}
             )
         }
 
@@ -32,13 +31,12 @@ class HomeScreenTest {
     }
 
     @Test
-    fun should_enter_input_as_required() {
+    fun should_register_expected_text_input() {
         // Arrange
         rule.setContent {
             HomeScreen(
                 homeState = HomeState(),
-                onHomeAction = {},
-                onNavigateToWeather = {}
+                onHomeAction = {}
             )
         }
 
