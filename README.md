@@ -22,12 +22,8 @@
 
 https://github.com/user-attachments/assets/8288f988-3fa8-4850-a42c-e50afc919122
 
-![Screenshot from 2025-07-03 00-48-14](https://github.com/user-attachments/assets/32bc45cf-c12e-451a-a2c4-823b2c073aee)
+![home.png](assets/home.png)
 
-![Screenshot from 2025-07-03 09-48-58](https://github.com/user-attachments/assets/c64f8a8f-201e-4150-977d-d296665badb7)
+![weather1.png](assets/weather1.png)
 
-![Screenshot from 2025-07-03 09-49-14](https://github.com/user-attachments/assets/1d16b3e5-d669-4f22-afa8-3c42adfe00ae)
-
-
-
-
+![weather2.png](assets/weather2.png)
