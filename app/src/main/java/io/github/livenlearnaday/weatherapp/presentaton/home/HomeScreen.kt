@@ -36,7 +36,8 @@ import io.github.livenlearnaday.weatherapp.ui.theme.WeatherAppTheme
 fun HomeScreen(
     modifier: Modifier = Modifier,
     homeState: HomeState,
-    onHomeAction: (HomeAction) -> Unit
+    onHomeAction: (HomeAction) -> Unit,
+    onNavigateToWeather: () -> Unit
 ) {
     val context = LocalContext.current
     val keyboard = LocalSoftwareKeyboardController.current
@@ -54,6 +55,10 @@ fun HomeScreen(
         ).show()
 
         onHomeAction(HomeAction.ResetMessage)
+    }
+
+    if (homeState.shouldNavigateToWeather) {
+        onNavigateToWeather()
     }
 
     Scaffold(
@@ -114,7 +119,8 @@ fun PreviewHomeScreen() {
     WeatherAppTheme {
         HomeScreen(
             homeState = HomeState(),
-            onHomeAction = {}
+            onHomeAction = {},
+            onNavigateToWeather = {}
         )
     }
 }

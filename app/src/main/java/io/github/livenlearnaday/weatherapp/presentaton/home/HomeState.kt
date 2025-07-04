@@ -8,6 +8,7 @@ data class HomeState(
     val isValidCityName: Boolean = false,
     val toastMessage: String = "",
     val isError: Boolean = false,
-    val errorMessage: String = ""
+    val errorMessage: String = "",
+    val shouldNavigateToWeather: Boolean = false
 
 )
