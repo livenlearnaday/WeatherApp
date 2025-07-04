@@ -39,7 +39,7 @@ fun AppNavigation() {
             val nameArg = backStackEntry.toRoute<NavigationRoute.WeatherRoute>().nameArg
             val weatherViewModel =
                 koinViewModel<WeatherViewModel> { parametersOf(nameArg) }
-            val weatherState = weatherViewModel.weatherState
+            val weatherState = weatherViewModel.weatherState.collectAsStateWithLifecycle().value
 
             WeatherScreen(
                 onBackPressed = {

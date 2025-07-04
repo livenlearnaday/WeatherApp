@@ -75,8 +75,8 @@ class WeatherViewModelTest {
         // Act
 
         // Assert
-        if (!viewModel.weatherState.isLoading) {
-            assertEquals(currentWeather, viewModel.weatherState.currentWeatherModel)
+        if (!viewModel.weatherState.value.isLoading) {
+            assertEquals(currentWeather, viewModel.weatherState.value.currentWeatherModel)
         }
     }
 }

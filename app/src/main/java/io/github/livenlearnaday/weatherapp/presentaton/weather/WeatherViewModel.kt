@@ -1,14 +1,13 @@
 package io.github.livenlearnaday.weatherapp.presentaton.weather
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.livenlearnaday.weatherapp.domain.CheckResult
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherModel
 import io.github.livenlearnaday.weatherapp.domain.usecase.FetchWeatherFromApiUseCase
 import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import timber.log.Timber
 
@@ -26,8 +25,8 @@ class WeatherViewModel(
         Timber.e(throwable)
     }
 
-    var weatherState by mutableStateOf(WeatherState())
-        private set
+    private val _weatherState = MutableStateFlow(WeatherState())
+    val weatherState = _weatherState.asStateFlow()
 
     init {
         Timber.tag(TAG)
@@ -37,7 +36,7 @@ class WeatherViewModel(
     fun weatherAction(action: WeatherAction) {
         when (action) {
             WeatherAction.ResetErrorMessage -> {
-                weatherState = weatherState.copy(
+                _weatherState.value = _weatherState.value.copy(
                     isError = false,
                     errorMessage = ""
                 )
@@ -46,20 +45,20 @@ class WeatherViewModel(
     }
 
     private fun fetchData() {
-        weatherState = weatherState.copy(
+        _weatherState.value = _weatherState.value.copy(
             isLoading = true
         )
         viewModelScope.launch(defaultExceptionHandler) {
             when (val apiResponse = fetchWeatherFromApiUseCase.execute(nameArg)) {
                 is CheckResult.Success -> {
-                    weatherState = weatherState.copy(
+                    _weatherState.value = _weatherState.value.copy(
                         isLoading = false,
                         currentWeatherModel = apiResponse.data
                     )
                 }
 
                 is CheckResult.Failure -> {
-                    weatherState = weatherState.copy(
+                    _weatherState.value = _weatherState.value.copy(
                         isLoading = false,
                         isError = true,
                         errorMessage = apiResponse.responseError?.error?.message
@@ -71,7 +70,7 @@ class WeatherViewModel(
     }
 
     private fun resetWeatherState() {
-        weatherState = weatherState.copy(
+        _weatherState.value = _weatherState.value.copy(
             isLoading = false,
             currentWeatherModel = CurrentWeatherModel(),
             isError = false,
