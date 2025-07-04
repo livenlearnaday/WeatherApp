@@ -21,7 +21,8 @@ class HomeScreenTest {
         rule.setContent {
             HomeScreen(
                 homeState = HomeState(),
-                onHomeAction = {}
+                onHomeAction = {},
+                onNavigateToWeather = {}
             )
         }
 
@@ -36,7 +37,8 @@ class HomeScreenTest {
         rule.setContent {
             HomeScreen(
                 homeState = HomeState(),
-                onHomeAction = {}
+                onHomeAction = {},
+                onNavigateToWeather = {}
             )
         }
 
