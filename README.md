@@ -26,7 +26,7 @@
 
 # media
 
-https://github.com/user-attachments/assets/8288f988-3fa8-4850-a42c-e50afc919122
+https://github.com/user-attachments/assets/f75e0555-8c84-43e4-b382-2e4a835ac048
 
 ![home.png](assets/home.png)
 
