@@ -9,6 +9,7 @@ import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherConditionM
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherModel
 import io.github.livenlearnaday.weatherapp.domain.model.LocationModel
 import io.github.livenlearnaday.weatherapp.domain.model.RequestModel
+import io.github.livenlearnaday.weatherapp.presentaton.util.getCurrentDateTimeDisplay
 import io.github.livenlearnaday.weatherapp.presentaton.util.getOpenWeatherIconUrl
 import io.github.livenlearnaday.weatherapp.presentaton.util.getWindDirection
 
@@ -34,7 +35,8 @@ fun Location.toLocationModel(): LocationModel = LocationModel(
     timeZoneId = this.timezoneId,
     localTime = this.localtime,
     localTimeEpoch = this.localtimeEpoch,
-    utcOffset = this.utcOffset
+    utcOffset = this.utcOffset,
+    currentSystemDateTimeDisplay = getCurrentDateTimeDisplay()
 )
 
 fun CurrentWeatherCondition.toCurrentWeatherConditionModel(): CurrentWeatherConditionModel = CurrentWeatherConditionModel(
@@ -61,7 +63,8 @@ fun OpenWeatherCurrentWeatherResponse.toCurrentWeatherModel(): CurrentWeatherMod
         name = this.name,
         country = this.sysResponse.country,
         lat = this.coordinates.lat,
-        lng = this.coordinates.lng
+        lng = this.coordinates.lng,
+        currentSystemDateTimeDisplay = getCurrentDateTimeDisplay()
     ),
     currentWeatherCondition = CurrentWeatherConditionModel(
         temperature = this.mainResponse.temp,

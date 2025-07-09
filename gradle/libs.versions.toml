@@ -7,31 +7,31 @@ jvm = "21"
 
 activityCompose = "1.10.1"
 androidxAppcompat = "1.7.1"
-androidxComposeBom = "2025.06.00"
+androidxComposeBom = "2025.06.01"
 androidxCoreKtx = "1.16.0"
 androidxConstraintLayoutCompose = "1.1.1"
 androidxLifecycle = "2.9.1"
 coil = "3.2.0"
 coroutines = "1.10.2"
 gradle = "8.10.1"
-jetbrainsKotlinDateTime = "0.6.2"
-kotlin = "2.1.21"
+jetbrainsKotlinDateTime = "0.7.0"
+kotlin = "2.2.0"
 koinVersion = "4.1.0"
 koinCompose = "4.1.0"
-ksp = "2.1.21-2.0.2"
-ktorVersion = "3.1.3"
+ksp = "2.2.0-2.0.2"
+ktorVersion = "3.2.1"
 material3Android = "1.3.2"
-navigationRuntimeKtx = "2.9.0"
-serializationKtx = "1.8.1"
-spotless = "6.25.0"
+navigationRuntimeKtx = "2.9.1"
+serializationKtx = "1.9.0"
+spotless = "7.0.4"
 timberVersion = "5.0.1"
 
 #Test libs version
 junit = "4.13.2"
-mockk = "1.13.13"
+mockk = "1.14.4"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-truth = "1.4.2"
+truth = "1.4.4"
 
 
 [libraries]
@@ -75,7 +75,7 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timberVersio
 # jetbrains
 coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 ktx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serializationKtx" }
-
+jetbrains-kotlin-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "jetbrainsKotlinDateTime"}
 #Test libs
 junit = { module = "junit:junit", version.ref = "junit" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }

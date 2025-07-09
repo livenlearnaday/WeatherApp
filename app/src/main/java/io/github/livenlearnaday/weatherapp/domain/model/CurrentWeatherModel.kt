@@ -27,8 +27,8 @@ data class LocationModel(
     val timeZoneId: String = "",
     val localTime: String = "",
     val localTimeEpoch: Int = 0,
-    val utcOffset: Double = 0.0
-
+    val utcOffset: Double = 0.0,
+    val currentSystemDateTimeDisplay: String = ""
 )
 
 @Serializable

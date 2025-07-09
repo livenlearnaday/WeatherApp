@@ -5,6 +5,11 @@ import androidx.compose.ui.graphics.Color.Companion.Yellow
 import io.github.livenlearnaday.weatherapp.ui.theme.lightOrange
 import io.github.livenlearnaday.weatherapp.ui.theme.orange
 import io.github.livenlearnaday.weatherapp.ui.theme.red
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.number
+import kotlinx.datetime.toLocalDateTime
 
 fun getFormattedUVRange(uv: Double): String = when {
     uv == -99.0 -> "NA"
@@ -38,4 +43,28 @@ fun getWindDirection(winDegreeInt: Int): String = when (winDegreeInt) {
     270 -> "W"
     315 -> "NW"
     else -> "N"
+}
+
+fun formatNumber(number: Int): String {
+    val numberString = number.toString()
+    return if (numberString.length == 2) {
+        numberString
+    } else {
+        "0$numberString"
+    }
+}
+
+// "dd-MM-yyyy HH:mm:ss"
+@OptIn(ExperimentalTime::class)
+fun getCurrentDateTimeDisplay(): String {
+    val instant = Clock.System.now()
+    val datetimeSystemDefaultTimeZone = instant.toLocalDateTime(TimeZone.currentSystemDefault())
+
+    val day = formatNumber(datetimeSystemDefaultTimeZone.day)
+    val month = formatNumber(datetimeSystemDefaultTimeZone.month.number)
+    val hour = formatNumber(datetimeSystemDefaultTimeZone.time.hour)
+    val min = formatNumber(datetimeSystemDefaultTimeZone.time.minute)
+    val second = formatNumber(datetimeSystemDefaultTimeZone.time.second)
+
+    return "$day-$month-${datetimeSystemDefaultTimeZone.year} $hour:$min:$second"
 }

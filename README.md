@@ -33,3 +33,7 @@ https://github.com/user-attachments/assets/8288f988-3fa8-4850-a42c-e50afc919122
 ![weather1.png](assets/weather1.png)
 
 ![weather2.png](assets/weather2.png)
+
+![weather3.png](assets/weather3.png)
+
+![weather4.png](assets/weather4.png)
