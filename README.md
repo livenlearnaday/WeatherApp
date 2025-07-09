@@ -13,8 +13,6 @@
 ## Openweather
 1. visit https://openweathermap.org/ and register an account to get free api key
 2. copy the api key to local.properties file as OPENWEATHER_KEY e.g. OPENWEATHER_KEY ="your_api_key"
-3. Using openweather api, you will also need google map key to generate map coordinates. Create a new google cloud project in https://console.cloud.google.com/ and enable Geocoding API for your project.
-4. copy the api key to local.properties file as GOOGLE_MAP_KEY e.g. GOOGLE_MAP_KEY ="your_api_key"
 
 
 
