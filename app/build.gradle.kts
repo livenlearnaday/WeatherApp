@@ -1,3 +1,7 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget.Companion.fromTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile
+
 plugins {
     alias(libs.plugins.application.android)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -47,14 +51,18 @@ android {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jvm.get())
     }
-    kotlinOptions {
-        jvmTarget = libs.versions.jvm.get()
-        allWarningsAsErrors = false
-        freeCompilerArgs = listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
+
+    kotlin {
+        compilerOptions {
+            jvmTarget = fromTarget(libs.versions.jvm.get())
+            allWarningsAsErrors = false
+            freeCompilerArgs = listOf(
+                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            )
+        }
     }
+
     buildFeatures {
         buildConfig = true
         compose = true
@@ -76,8 +84,9 @@ dependencies {
     // navigation
     implementation(libs.bundles.navigation)
 
-    //Timber logging
+    //utils
     implementation(libs.timber)
+    implementation(libs.jetbrains.kotlin.datetime)
 
     // coroutines
     implementation(libs.coroutines)

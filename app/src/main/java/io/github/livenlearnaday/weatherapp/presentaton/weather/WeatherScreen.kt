@@ -140,7 +140,7 @@ fun TopUI(
         ) {
             Text(
                 text = textWithMultiStyle(
-                    originalText = "From $weatherProviderTypeName @ ${currentWeather.location.localTime}",
+                    originalText = "From $weatherProviderTypeName @ ${currentWeather.location.currentSystemDateTimeDisplay}",
                     customTextList = listOf(
                         TextWithStyle(
                             customText = weatherProviderTypeName,
@@ -345,7 +345,8 @@ private val currentWeather = CurrentWeatherModel(
     location = LocationModel(
         name = "Bangkok",
         country = "Thailand",
-        localTime = "2025-07-02 20:00"
+        localTime = "2025-07-02 20:00",
+        currentSystemDateTimeDisplay = "02-07-2025 20:00:00"
     ),
     currentWeatherCondition = CurrentWeatherConditionModel(
         temperature = 25.0,
