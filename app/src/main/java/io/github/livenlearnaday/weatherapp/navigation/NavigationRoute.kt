@@ -9,6 +9,7 @@ sealed class NavigationRoute {
 
     @Serializable
     data class WeatherRoute(
-        val nameArg: String
+        val nameArg: String,
+        val weatherProviderTypeName: String
     )
 }

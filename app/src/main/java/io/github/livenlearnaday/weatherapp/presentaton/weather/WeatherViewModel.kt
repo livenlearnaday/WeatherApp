@@ -2,6 +2,7 @@ package io.github.livenlearnaday.weatherapp.presentaton.weather
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.livenlearnaday.weatherapp.data.models.WeatherProviderType
 import io.github.livenlearnaday.weatherapp.domain.CheckResult
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherModel
 import io.github.livenlearnaday.weatherapp.domain.usecase.FetchWeatherFromApiUseCase
@@ -13,6 +14,7 @@ import timber.log.Timber
 
 class WeatherViewModel(
     private val nameArg: String,
+    private val weatherProviderTypeName: String,
     private val fetchWeatherFromApiUseCase: FetchWeatherFromApiUseCase
 ) : ViewModel() {
 
@@ -49,11 +51,16 @@ class WeatherViewModel(
             isLoading = true
         )
         viewModelScope.launch(defaultExceptionHandler) {
-            when (val apiResponse = fetchWeatherFromApiUseCase.execute(nameArg)) {
+            val weatherProviderType = when (weatherProviderTypeName) {
+                WeatherProviderType.WEATHERSTACK.providerName -> WeatherProviderType.WEATHERSTACK
+                else -> WeatherProviderType.OPENWEATHER
+            }
+            when (val apiResponse = fetchWeatherFromApiUseCase.execute(nameArg, weatherProviderType)) {
                 is CheckResult.Success -> {
                     _weatherState.value = _weatherState.value.copy(
                         isLoading = false,
-                        currentWeatherModel = apiResponse.data
+                        currentWeatherModel = apiResponse.data,
+                        weatherProviderTypeName = weatherProviderTypeName
                     )
                 }
 

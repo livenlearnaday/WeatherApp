@@ -30,15 +30,17 @@ fun AppNavigation() {
                 homeState = homeState,
                 onHomeAction = homeViewModel::homeAction,
                 onNavigateToWeather = {
+                    val weatherProviderTypeName = homeState.weatherProviderTypeName
                     homeViewModel.homeAction(HomeAction.ResetWeatherNavigation)
-                    navController.navigate(NavigationRoute.WeatherRoute(homeState.nameTextFieldState.text.toString()))
+                    navController.navigate(NavigationRoute.WeatherRoute(homeState.nameTextFieldState.text.toString(), weatherProviderTypeName))
                 }
             )
         }
         composable<NavigationRoute.WeatherRoute> { backStackEntry ->
             val nameArg = backStackEntry.toRoute<NavigationRoute.WeatherRoute>().nameArg
+            val weatherProviderTypeName = backStackEntry.toRoute<NavigationRoute.WeatherRoute>().weatherProviderTypeName
             val weatherViewModel =
-                koinViewModel<WeatherViewModel> { parametersOf(nameArg) }
+                koinViewModel<WeatherViewModel> { parametersOf(nameArg, weatherProviderTypeName) }
             val weatherState = weatherViewModel.weatherState.collectAsStateWithLifecycle().value
 
             WeatherScreen(

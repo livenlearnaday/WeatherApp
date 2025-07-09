@@ -39,7 +39,7 @@ class WeatherScreenTest {
                 windDir = "WSW",
                 pressure = 1008,
                 humidity = 100,
-                uvIndex = 0
+                uvIndex = 0.18
             )
         )
 

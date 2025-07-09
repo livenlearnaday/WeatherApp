@@ -6,6 +6,7 @@ data class WeatherState(
     val isLoading: Boolean = false,
     val currentWeatherModel: CurrentWeatherModel = CurrentWeatherModel(),
     val isError: Boolean = false,
-    val errorMessage: String = ""
+    val errorMessage: String = "",
+    val weatherProviderTypeName: String = ""
 
 )

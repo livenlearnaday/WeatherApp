@@ -9,6 +9,7 @@ data class HomeState(
     val toastMessage: String = "",
     val isError: Boolean = false,
     val errorMessage: String = "",
-    val shouldNavigateToWeather: Boolean = false
+    val shouldNavigateToWeather: Boolean = false,
+    val weatherProviderTypeName: String = ""
 
 )

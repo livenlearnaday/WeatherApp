@@ -44,7 +44,7 @@ class HomeViewModelTest {
 
         runTest {
             // Act
-            viewModel.homeAction(HomeAction.OnClickedSearch)
+            viewModel.homeAction(HomeAction.OnClickedWeatherStack)
 
             // Assert
             validateUserInputUseCase.execute("Bangkok")
