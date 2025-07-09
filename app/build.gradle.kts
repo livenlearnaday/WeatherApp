@@ -28,11 +28,10 @@ android {
         properties.load(project.rootProject.file("local.properties").inputStream())
 
         buildConfigField("String", "WEATHERSTACK_KEY", "${properties["WEATHERSTACK_KEY"]}")
-        buildConfigField("String", "WEATHERSTACK_ENDPOINT", "\"https://api.weatherstack.com/\"")
+        buildConfigField("String", "WEATHERSTACK_ENDPOINT", "\"https://api.weatherstack.com\"")
 
         buildConfigField("String", "OPENWEATHER_KEY", "${properties["OPENWEATHER_KEY"]}")
-        buildConfigField("String", "GOOGLE_MAP_KEY", "${properties["GOOGLE_MAP_KEY"]}")
-
+        buildConfigField("String", "OPENWEATHER_ENDPOINT", "\"https://api.openweathermap.org\"")
     }
 
     buildTypes {

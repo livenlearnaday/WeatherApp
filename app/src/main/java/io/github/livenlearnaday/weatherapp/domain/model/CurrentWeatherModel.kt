@@ -45,8 +45,8 @@ data class CurrentWeatherConditionModel(
     val precip: Double = 0.0,
     val humidity: Int = 0,
     val cloudCover: Int = 0,
-    val feelsLike: Int = 0,
-    val uvIndex: Int = 0,
+    val feelsLike: Double = 0.0,
+    val uvIndex: Double = 0.0,
     val visibility: Int = 0,
     val isDay: String = ""
 

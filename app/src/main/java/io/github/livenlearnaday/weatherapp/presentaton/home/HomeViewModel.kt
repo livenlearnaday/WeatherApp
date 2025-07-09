@@ -2,6 +2,7 @@ package io.github.livenlearnaday.weatherapp.presentaton.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.livenlearnaday.weatherapp.data.models.WeatherProviderType
 import io.github.livenlearnaday.weatherapp.domain.usecase.ValidateUserInputUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,8 +32,12 @@ class HomeViewModel(
 
     fun homeAction(action: HomeAction) {
         when (action) {
-            HomeAction.OnClickedSearch -> {
-                validateInput()
+            HomeAction.OnClickedWeatherStack -> {
+                validateInput(WeatherProviderType.WEATHERSTACK.providerName)
+            }
+
+            HomeAction.OnClickedOpenWeather -> {
+                validateInput(WeatherProviderType.OPENWEATHER.providerName)
             }
 
             HomeAction.ResetMessage -> {
@@ -57,7 +62,7 @@ class HomeViewModel(
         }
     }
 
-    private fun validateInput() {
+    private fun validateInput(weatherProviderTypeName: String) {
         validateUserInputUseCase.execute(_homeState.value.nameTextFieldState.text.toString())
             .onStart {
                 _homeState.value = _homeState.value.copy(
@@ -76,7 +81,8 @@ class HomeViewModel(
                     "" -> {
                         _homeState.update { homeState ->
                             homeState.copy(
-                                shouldNavigateToWeather = true
+                                shouldNavigateToWeather = true,
+                                weatherProviderTypeName = weatherProviderTypeName
                             )
                         }
                     }
@@ -97,7 +103,8 @@ class HomeViewModel(
             isLoading = false,
             toastMessage = "",
             isError = false,
-            errorMessage = ""
+            errorMessage = "",
+            weatherProviderTypeName = ""
         )
     }
 

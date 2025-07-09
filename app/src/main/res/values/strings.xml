@@ -8,7 +8,8 @@
 
 <!--    label-->
     <string name="label_city_name">City Name</string>
-    <string name="label_search">Search</string>
+    <string name="label_weatherstack">weatherstack </string>
+    <string name="label_openweather">openweather</string>
     <string name="label_degree_celsius">℃</string>
     <string name="label_weather_icon">Weather Icon</string>
     <string name="label_detail">Detail</string>

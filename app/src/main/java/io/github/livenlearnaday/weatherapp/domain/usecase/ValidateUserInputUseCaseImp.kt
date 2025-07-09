@@ -1,6 +1,5 @@
-package io.github.livenlearnaday.domain.survey.usecases.imp
+package io.github.livenlearnaday.weatherapp.domain.usecase
 
-import io.github.livenlearnaday.weatherapp.domain.usecase.ValidateUserInputUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 

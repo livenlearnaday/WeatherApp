@@ -14,9 +14,10 @@ val uiModule = module {
         )
     }
 
-    viewModel<WeatherViewModel> { (nameArg: String) ->
+    viewModel<WeatherViewModel> { (nameArg: String, weatherProviderTypeName: String) ->
         WeatherViewModel(
             nameArg = nameArg,
+            weatherProviderTypeName = weatherProviderTypeName,
             get<FetchWeatherFromApiUseCase>()
         )
     }

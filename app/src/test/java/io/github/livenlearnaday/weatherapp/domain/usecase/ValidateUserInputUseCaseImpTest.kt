@@ -1,6 +1,5 @@
 package io.github.livenlearnaday.weatherapp.domain.usecase
 
-import io.github.livenlearnaday.domain.survey.usecases.imp.ValidateUserInputUseCaseImp
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.livenlearnaday.weatherapp.R
+import io.github.livenlearnaday.weatherapp.data.models.WeatherProviderType
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherConditionModel
 import io.github.livenlearnaday.weatherapp.domain.model.CurrentWeatherModel
 import io.github.livenlearnaday.weatherapp.domain.model.LocationModel
@@ -48,7 +49,10 @@ import io.github.livenlearnaday.weatherapp.ui.components.CommonAlertDialog
 import io.github.livenlearnaday.weatherapp.ui.components.CustomImage
 import io.github.livenlearnaday.weatherapp.ui.components.CustomTopAppBar
 import io.github.livenlearnaday.weatherapp.ui.components.DotPulsingLoadingIndicator
+import io.github.livenlearnaday.weatherapp.ui.components.TextWithStyle
+import io.github.livenlearnaday.weatherapp.ui.components.textWithMultiStyle
 import io.github.livenlearnaday.weatherapp.ui.theme.WeatherAppTheme
+import io.github.livenlearnaday.weatherapp.ui.theme.royalBlue
 
 @Composable
 fun WeatherScreen(
@@ -101,6 +105,7 @@ fun WeatherScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     TopUI(
+                        weatherProviderTypeName = weatherState.weatherProviderTypeName,
                         currentWeather = weatherState.currentWeatherModel
                     )
 
@@ -115,6 +120,7 @@ fun WeatherScreen(
 
 @Composable
 fun TopUI(
+    weatherProviderTypeName: String,
     currentWeather: CurrentWeatherModel
 ) {
     Column(
@@ -126,6 +132,29 @@ fun TopUI(
             .padding(horizontal = 10.dp, vertical = 20.dp)
 
     ) {
+        Row(
+            modifier = Modifier
+                .testTag("localTime")
+                .padding(bottom = 10.dp),
+            verticalAlignment = Alignment.Top
+        ) {
+            Text(
+                text = textWithMultiStyle(
+                    originalText = "From $weatherProviderTypeName @ ${currentWeather.location.localTime}",
+                    customTextList = listOf(
+                        TextWithStyle(
+                            customText = weatherProviderTypeName,
+                            style = MaterialTheme.typography.labelLarge.copy(
+                                fontWeight = FontWeight.Bold,
+                                color = royalBlue
+                            )
+                        )
+                    )
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.labelLarge
+            )
+        }
         Text(
             modifier = Modifier
                 .testTag("city")
@@ -143,15 +172,6 @@ fun TopUI(
             text = currentWeather.location.country,
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            modifier = Modifier
-                .testTag("localTime")
-                .padding(bottom = 30.dp),
-            text = currentWeather.location.localTime,
-            color = MaterialTheme.colorScheme.onSurface,
-            style = MaterialTheme.typography.labelLarge
         )
 
         Text(
@@ -174,23 +194,25 @@ fun TopUI(
 
         )
 
-        OutlinedButton(
-            onClick = {},
-            modifier = Modifier
-                .padding(20.dp)
-                .size(50.dp),
-            shape = CircleShape,
-            border = BorderStroke(5.dp, Transparent),
-            contentPadding = PaddingValues(0.dp),
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = getUVIndexColor(
-                    getFormattedUVRange(
-                        currentWeather.currentWeatherCondition.uvIndex.toDouble()
+        if (weatherProviderTypeName != WeatherProviderType.OPENWEATHER.providerName) {
+            OutlinedButton(
+                onClick = {},
+                modifier = Modifier
+                    .padding(20.dp)
+                    .size(50.dp),
+                shape = CircleShape,
+                border = BorderStroke(5.dp, Transparent),
+                contentPadding = PaddingValues(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    containerColor = getUVIndexColor(
+                        getFormattedUVRange(
+                            currentWeather.currentWeatherCondition.uvIndex
+                        )
                     )
-                )
-            ),
-            content = {}
-        )
+                ),
+                content = {}
+            )
+        }
     }
 }
 
@@ -241,7 +263,7 @@ fun BottomUI(
         ) {
             WeatherItemColumn(
                 title = stringResource(R.string.label_uv_index),
-                value = getFormattedUVRange(currentWeather.currentWeatherCondition.uvIndex.toDouble())
+                value = getFormattedUVRange(currentWeather.currentWeatherCondition.uvIndex)
             )
 
             WeatherItemColumn(
@@ -304,6 +326,7 @@ fun PreviewWeatherScreen() {
     WeatherAppTheme {
         WeatherScreen(
             weatherState = WeatherState(
+                weatherProviderTypeName = "openweather",
                 currentWeatherModel = currentWeather
             ),
             onWeatherAction = {},
@@ -331,6 +354,6 @@ private val currentWeather = CurrentWeatherModel(
         windDir = "WSW",
         pressure = 1008,
         humidity = 100,
-        uvIndex = 0
+        uvIndex = -99.0
     )
 )

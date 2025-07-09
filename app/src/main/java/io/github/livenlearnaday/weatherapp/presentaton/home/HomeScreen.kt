@@ -34,7 +34,6 @@ import io.github.livenlearnaday.weatherapp.ui.theme.WeatherAppTheme
 
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     homeState: HomeState,
     onHomeAction: (HomeAction) -> Unit,
     onNavigateToWeather: () -> Unit
@@ -100,11 +99,20 @@ fun HomeScreen(
                     CustomButton(
                         modifier = Modifier.padding(horizontal = 50.dp),
                         enableButton = !homeState.isLoading,
-                        showLoading = homeState.isLoading,
-                        label = stringResource(R.string.label_search),
+                        label = stringResource(R.string.label_weatherstack),
                         onButtonClicked = {
                             keyboard?.hide()
-                            onHomeAction(HomeAction.OnClickedSearch)
+                            onHomeAction(HomeAction.OnClickedWeatherStack)
+                        }
+                    )
+
+                    CustomButton(
+                        modifier = Modifier.padding(top = 20.dp, start = 50.dp, end = 50.dp),
+                        enableButton = !homeState.isLoading,
+                        label = stringResource(R.string.label_openweather),
+                        onButtonClicked = {
+                            keyboard?.hide()
+                            onHomeAction(HomeAction.OnClickedOpenWeather)
                         }
                     )
                 }
